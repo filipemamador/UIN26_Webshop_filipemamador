@@ -1,15 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 :root {
-    --red: #DA291C;
-    --yellow: #FFD700;
-    --blue: #006DB7;
-    --green: #00AF4d;
+    --red: #da291c;
+    --yellow: #ffd700;
+    --blue: #006db7;
+    --green: #00AF4D;
     --white: #fff;
     --black: #000;
 
     --rootsize: 20px;
     --maxwidth: 1200px;
+
 }
 
 body,
@@ -19,10 +20,9 @@ html {
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
     background-color: var(--yellow);
     background-image: url(website_images/mainbackground.png);
-
 }
 
 p {
@@ -57,7 +57,6 @@ h3 {
 }
 
 /* HOVEDOMRÅDE */
-
 #container {
     width: 100%;
     max-width: var(--maxwidth);
@@ -67,13 +66,11 @@ h3 {
 }
 
 header {
-
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 
 #cart-button {
     width: 70px;
@@ -81,8 +78,9 @@ header {
     border: none;
     position: relative;
 
+
     div {
-        background: var(--red);
+        background-color: var(--red);
         width: 30px;
         height: 30px;
         border-radius: 50%;
@@ -93,6 +91,7 @@ header {
         position: absolute;
         top: -15px;
         left: -12px;
+
     }
 }
 
@@ -108,12 +107,10 @@ nav {
         text-decoration: none;
 
 
-
         &:hover {
             background: var(--yellow);
             color: var(--black);
             box-shadow: inset 0 -5px 0 var(--black);
-
         }
     }
 }
@@ -123,6 +120,8 @@ main {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
+        padding-left: 1rem;
+        padding-right: 1rem;
         gap: 1rem;
     }
 
@@ -140,7 +139,6 @@ main {
         box-sizing: border-box;
         border-bottom: 1rem solid var(--green);
         margin-bottom: 1rem;
-
 
         a {
             color: var(--yellow);
@@ -164,6 +162,7 @@ main {
             font-size: 1rem;
             padding: 0.5rem 1rem;
         }
+
 
         img {
             width: 100%;
@@ -190,5 +189,6 @@ main {
     table {
         width: 100%;
         color: var(--white);
+
     }
 }
