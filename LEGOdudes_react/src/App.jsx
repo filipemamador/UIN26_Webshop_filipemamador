@@ -1,13 +1,34 @@
 import './style/lego.css'
 import { products } from './assets/legodudes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Cart from './components/Cart'
+import Products from './components/Products'
+import Header from './components/Header'
+import Nav from './components/Nav'
+import CategoryTitle from './components/CategoryTitle'
+import Layout from './components/Layout'
+import { Route, Routes } from 'react-router-dom'
 
 
 function App() {
 
   const [isOpen, setIsOpen] = useState(false)
+  const [cart, setCart] = useState([])//AK2 ?????
+  const [cartQuantity, setCartQuantity] = useState(0)
+  const [totalSum, setTotalSum] = useState(0)
 
-  function Header({ setIsOpen }) {
+
+  console.log("cart", cart)
+
+  useEffect(() => {
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0)
+
+    setCartQuantity(totalQuantity)
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    setTotalSum(total)
+  }, [cart])
+
+  /*function Header({ setIsOpen, cartQuantity }) {
     return (
       <header>
         <h1>
@@ -16,14 +37,14 @@ function App() {
           </a>
         </h1>
         <button id="cart-button" onClick={() => setIsOpen((prev) => !prev)}>
-          <div id="cart-quantity">0</div>
+          <div id="cart-quantity">{cartQuantity}</div>
           <img src="website_images/legocart.svg" alt="Handlevogn" />
         </button>
       </header>
     )
-  }
+  }*/
 
-  function Nav() {
+  /*function Nav() {
     return (
       <nav>
         <a href="#">City</a>
@@ -35,24 +56,28 @@ function App() {
       </nav>
 
     )
-  }
+  }*/
 
-  function CategoryTitle() {
+  /*function CategoryTitle() {
     return (
       <h2>Ninjago</h2>
     )
-  }
+  }*/
 
-  function Products({ products }) {
+  /*function Products({ products, setCart }) {
     return (
       <div id="product-list">
-        {products.map(p => <ProductCard key={p.prodid} p={p} />)}
+        {products.map(p => <ProductCard key={p.prodid} p={p} setCart={setCart} />)}
       </div>
     )
-  }
+  }*/
 
-  function ProductCard({ p }) {
+  /*function ProductCard({ p, setCart }) {
     const handleClick = () => {
+      setCart((prev) =>
+        prev.some(item => item.prodid === p.prodid) ?
+          prev.map(item => item.prodid === p.prodid ? { ...item, quantity: item.quantity + 1 } : item) : [...prev, { ...p, quantity: 1 }])
+
       console.log("Legg i handlekurv")
     }
 
@@ -64,41 +89,57 @@ function App() {
         <p> KR. {p.price},-</p>
         <button onClick={handleClick}>Legg til handlevogn</button>
       </article>)
-  }
+  }*/
 
-  function Cart({ isOpen }) {
+  /*function Cart({ isOpen, cart, setCart, totalSum }) {
     return (<section id="cart" className={isOpen ? "" : "hidden"}>
       <table id="cart-items">
         <tbody>
-          <tr>
-            <td>Ingen varer i handlevognen enda.</td>
-          </tr>
+          {cart.length <= 0 ?
+            (<tr>
+              <td>Ingen varer i handlevognen enda.</td>
+            </tr>) : (cart.map(p => <CartItem key={p.prodid} p={p} setCart={setCart} />))
+          }
         </tbody>
       </table>
-      <p>Total pris: <span id="total-price">0</span> NOK</p>
+      <p>Total pris: <span id="total-price">{totalSum}</span> NOK</p>
     </section>
     )
-  }
-  function CartItem() {
+  }*/
+  /*function CartItem({ p, setCart }) {
+
+    const removeFromCart = (prodid) => {
+      setCart(prev => prev.map(item => item.prodid === prodid ? { ...item, quantity: item.quantity - 1 } : item).filter(item => item.quantity > 0)
+
+      )
+
+    }
     return (<tr>
-      <td className="title">${product.title}</td>
-      <td className="price">${product.price}</td>
-      <td className="quantity">${ci.quantity}</td>
-      <td className="delete"><button onClick="deleteFromCart(${product.prodid})">X</button></td>
+      <td className="title">{p.title}</td>
+      <td className="price">{p.price}</td>
+      <td className="quantity">{p.quantity}</td>
+      <td className="delete"><button onClick={() => removeFromCart(p.prodid)}>X</button></td>
     </tr>
+    )
+  }*/
+
+  function Page() {
+    return (
+      <main>
+        <CategoryTitle />
+        <Products products={products} setCart={setCart} />
+      </main>
     )
   }
   return (
-    <div id="container">
-      <Header setIsOpen={setIsOpen} />
-      <Nav />
-      <main>
-        <CategoryTitle />
-        <Products products={products} />
-      </main>
-      <Cart isOpen={isOpen} />
+    <Layout setIsOpen={setIsOpen} cartQuantity={cartQuantity} isOpen={isOpen} cart={cart} setCart={setCart} totalSum={totalSum}>
+      <Routes>
+        <Route index element={<Page />} />
+        <Route path='city' element={<CategoryTitle title="City" />} />
+        <Route path='nijago' element={<CategoryTitle title="Ninjago" />} />
 
-    </div>
+      </Routes>
+    </Layout>
   )
 }
 
